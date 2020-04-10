@@ -1,13 +1,13 @@
-import exampleVideoData from '../data/exampleVideoData.js';
 
-var VideoPlayer = (props) => (
-  <div className="video-player">
+var VideoPlayer = ({video}) => (
+  !video ? <div className="video-player">Please Wait... </div> :
+    <div className="video-player">
     <div className="embed-responsive embed-responsive-16by9">
-      <iframe className="embed-responsive-item" src={"https://www.youtube.com/embed/" + props.video.id.videoId} allowFullScreen></iframe>
+      <iframe className="embed-responsive-item" src={`https://www.youtube.com/embed/${video.id.videoId}`}allowFullScreen></iframe>
     </div>
     <div className="video-player-details">
-      <h3>{props.video.snippet.title}</h3>
-      <div>{props.video.snippet.description}</div>
+      <h3>{video.snippet.title}</h3>
+      <div>{video.snippet.description}</div>
     </div>
   </div>
 );
@@ -18,42 +18,5 @@ VideoPlayer.propTypes = {
   video: PropTypes.object.isRequired
 };
 
-// In the ES6 spec, files are "modules" and do not share a top-level scope
-// `var` declarations will only exist globally where explicitly defined
 export default VideoPlayer;
 
-
-//EMBEDDED VIDEOS CANNOT BE PLAYED VIA IP ADDRESS - MUST BE PLAYED VIA SERVER
-//works on sites with domain and does not work on sites reached by IP adress. Works when using on "localhost"
-
-
-// kind: 'youtube#searchResult',
-//   etag: 'abQHWywil_AkNqdqji7_FqiK-u4/Ykxo_CqKu8F8kcm-iNgL332gQTY',
-//   id: {
-//     kind: 'youtube#video',
-//     videoId: '4ZAEBxGipoA'
-//   },
-//   snippet: {
-//     publishedAt: '2015-08-02T20:52:58.000Z',
-//     channelId: 'UCJbPGzawDH1njbqV-D5HqKw',
-//     title: 'React JS Tutorial for Beginners - 1 - Introduction',
-//     description: 'My website - https://www.thenewboston.com/videos.php Have questions about the tutorial or React? Ask them here ...',
-//     thumbnails: {
-//       default: {
-//         url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/default.jpg',
-//         width: 120,
-//         height: 90
-//       },
-//       medium: {
-//         url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/mqdefault.jpg',
-//         width: 320,
-//         height: 180
-//       },
-//       high: {
-//         url: 'https://i.ytimg.com/vi/4ZAEBxGipoA/hqdefault.jpg',
-//         width: 480,
-//         height: 360
-//       }
-//     },
-//     channelTitle: 'thenewboston',
-//     liveBroadcastContent: 'none'

@@ -1,31 +1,37 @@
 import Search from './Search.js';
 import VideoList from './VideoList.js';
 import VideoPlayer from './VideoPlayer.js';
-import exampleVideoData from '../data/exampleVideoData.js';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      videoCollection: exampleVideoData,
-      currentView: exampleVideoData[0]
+      videoCollection: [],
+      currentVideo: null
     };
   }
+  componentDidMount() {
+    this.getYoutubeVideos('cute kittens');
+  }
 
-  // onListItemClick() {
-  //   this.setState({
-  //     done: !this.state.done
-  //   });
-  // }
+  getYoutubeVideos(query) {
+    var options = {
+      key: this.props.API_KEY,
+      query: query
+    };
 
-  // After someone clicks
-  // Find out how to access different video
-  // Change State to a different video
+    this.props.searchYoutube(options, (videos) =>
+      this.setState({
+        videoCollection: videos,
+        currentVideo: videos[0]
+      })
+    );
+  }
 
   //PROPS.video
-  onVideoClick () {
+  onVideoClick (video) {
     this.setState({
-      currentView: video
+      currentVideo: video
     });
   }
 
@@ -36,15 +42,15 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><Search/></h5></div>
+            <div><h5><Search handleSearchInputChange={this.getYoutubeVideos.bind(this)}/></h5></div>
           </div>
         </nav>
         <div className="row">
           <div className="col-md-7">
-            <VideoPlayer video={this.state.currentView} />
+            <VideoPlayer video={this.state.currentVideo} />
           </div>
           <div className="col-md-5">
-            <VideoList onClick={this.onVideoClick.bind(this)} videos={this.state.videoCollection}/>
+            <VideoList titleClickHolder={this.onVideoClick.bind(this)} videos={this.state.videoCollection}/>
           </div>
         </div>
       </div>
